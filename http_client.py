@@ -9,7 +9,7 @@ class HTTP_client:
         self.session = ClientSession()
 
     async def get_request(self, url, headers={}):
-        logging.debug('Doing request to: ' + url + ' using headers: ' + str(headers) + ' and token: ' + token)
+        logging.debug('Doing request to: ' + url + ' using headers: ' + str(headers))
         async with self.session.get(url, headers=headers) as response:
             response = await response.text()
             logging.debug("Response from request to url: " + response)
