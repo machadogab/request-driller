@@ -42,23 +42,28 @@ if not options.url:
     usage()
     exit()
 
-def parse_headers(headers):
+def parse_headers(headers = []):
     parsed_headers = {}
     for header in headers:
         values = header.split(':')
         parsed_headers[values[0]] = values[1]
     return parsed_headers
 
-headers = parse_headers(options.headers)
-headers["Authorization"] = options.token
+if options.headers:
+    headers = parse_headers(options.headers)
+else:
+    headers = {}
+
+if options.token:
+    headers["Authorization"] = options.token
 
 async def run():
     client = HTTP_client()
     tasks = []
 
     if options.url_params:
-        for params in options.url_params:
-                task = asyncio.ensure_future(client.get_request(options.url + params , headers=headers))
+        for params in range(200000):
+                task = asyncio.ensure_future(client.get_request(options.url, headers=headers))
                 tasks.append(task)
     else:
         task = asyncio.ensure_future(client.get_request(options.url, headers=headers))
